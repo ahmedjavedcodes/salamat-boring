@@ -68,3 +68,17 @@ Open items are tracked at their source rather than in a checklist that drifts:
 
 Deploy to Vercel with `NEXT_PUBLIC_SITE_URL` set. The locale proxy rules out
 `output: 'export'`.
+
+### "No Output Directory named 'public' found"
+
+If Vercel fails a deploy with this error, it has misdetected the project as a static
+site instead of Next.js — usually because the project's **Framework Preset** in
+Vercel's dashboard got set to something other than "Next.js" (e.g. "Other") when the
+project was first created, which makes Vercel look for a prebuilt `public`/`dist`
+folder instead of running the Next.js build. `vercel.json` here pins
+`"framework": "nextjs"` to prevent that, but on an **existing** Vercel project the
+dashboard setting can still need a manual nudge:
+
+1. Project → Settings → General → Build & Development Settings → **Framework Preset** → set to **Next.js**.
+2. In the same panel, make sure **Output Directory** has no manual override (leave it on the framework default — it should not say `public`).
+3. Redeploy.
