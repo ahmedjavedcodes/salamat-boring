@@ -1,4 +1,4 @@
-import type { HeroCopy } from '@/lib/content/types';
+import type { IllustrationCopy } from '@/lib/content/types';
 import { cn } from '@/lib/utils/cn';
 
 /**
@@ -73,7 +73,7 @@ export function BoreholeSection({
   dir,
   className,
 }: {
-  dict: HeroCopy['illustration'];
+  dict: IllustrationCopy;
   dir: 'ltr' | 'rtl';
   className?: string;
 }) {
@@ -97,7 +97,18 @@ export function BoreholeSection({
   return (
     <svg
       viewBox={`0 0 ${VIEW.width} ${VIEW.height}`}
-      preserveAspectRatio="xMidYMax slice"
+      // "meet" (contain), not "slice" (cover): the whole illustration is meant to be
+      // visible at every size now (CLAUDE.md §8), and "meet" guarantees that
+      // regardless of the container's exact rounded ratio.
+      preserveAspectRatio="xMidYMid meet"
+      // The CSS/SVG2 text layout model makes text-anchor "start"/"end" direction-aware:
+      // under an inherited dir="rtl" (from <html lang="ur" dir="rtl">), "end" can
+      // resolve to the visual *left* instead of the right the mirrored coordinates
+      // below assume, pushing the Urdu labels past the viewBox edge and clipping them.
+      // Mirroring here is already done by hand (pipeX/labelX/textAnchor all swap on
+      // `rtl`), so the SVG is pinned to direction="ltr" to stop the engine from
+      // re-mirroring on top of that.
+      direction="ltr"
       role="img"
       aria-labelledby="borehole-title borehole-desc"
       className={cn('h-full w-full', className)}

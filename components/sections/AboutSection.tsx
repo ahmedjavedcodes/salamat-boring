@@ -1,13 +1,22 @@
+import Image from 'next/image';
+
 import { Section } from '@/components/layout/Section';
 import type { AboutCopy } from '@/lib/content/types';
+import aboutPhoto from '@/lib/images/2.jpg';
 
 /**
- * About (CLAUDE.md §5.3). The boring process is a real sequence, so it is the one place
- * numbered markers are allowed (§3.7); the numbers are brass and aria-hidden, since the
- * ordered list already conveys the order.
+ * About (CLAUDE.md §5.3).
  *
- * There is no trust-facts block: years in business and project counts are TODO(client),
- * and §5.3 says omit rather than invent.
+ * The client's photo of a rig on an open plot sits beside the story. The borehole
+ * cross-section illustration briefly lived here too, but reverted to its original home
+ * in the hero (§3.1, §8 decision log), so this section is story, photo and process only.
+ *
+ * The boring process is a real sequence, so it is the one place numbered markers are
+ * allowed (§3.7); the numbers are brass and aria-hidden, since the ordered list
+ * already conveys the order.
+ *
+ * There is no "years in business" or project-count claim here: that social proof now
+ * lives in the Work section (§8 decision log).
  */
 export function AboutSection({ id, dict }: { id: string; dict: AboutCopy }) {
   return (
@@ -16,13 +25,27 @@ export function AboutSection({ id, dict }: { id: string; dict: AboutCopy }) {
         {dict.heading}
       </h2>
 
-      <div className="max-w-measure mt-6 flex flex-col gap-5 text-lg">
-        {dict.story.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
+      <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="max-w-measure flex flex-col gap-5 text-lg lg:col-span-7">
+          {dict.story.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+
+        <div className="lg:col-span-5">
+          <div className="aspect-work rounded-media bg-limewash relative overflow-hidden">
+            <Image
+              src={aboutPhoto}
+              alt={dict.photoAlt}
+              placeholder="blur"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
       </div>
 
-      <h3 className="display-type text-aquifer mt-16 text-xl">{dict.processHeading}</h3>
+      <h3 className="display-type text-aquifer mt-20 text-xl">{dict.processHeading}</h3>
 
       <ol className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {dict.process.map((step, index) => (

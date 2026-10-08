@@ -1,4 +1,4 @@
-# Mian Salamat Boring and Sanitary House
+# Mian Salamat Boring & Motor Pump
 
 Bilingual (English / Urdu) single-page lead-generation site for a water boring, pump and
 sanitary business in Lahore. Its one job is to turn a visitor into a WhatsApp
@@ -37,25 +37,34 @@ see a flash of English. `Accept-Language` is deliberately not used.
 
 ## Where things live
 
-- `lib/content/business.ts` — every business fact. Nothing else may state one.
+- `lib/content/business.ts` — every business fact, including phone, address, the Maps
+  link and the social-proof figures. Nothing else may state one.
 - `lib/content/en`, `lib/content/ur` — all copy. No user-facing string lives in a component.
-- `lib/content/work.ts` — gallery items. Empty until the client supplies photos.
+- `lib/content/work.ts` — gallery items, built from `lib/images/`.
 - `app/globals.css` — the design tokens, in `@theme`.
 
 ## Before launch
 
 Open items are tracked at their source rather than in a checklist that drifts:
 
-- `TODO(client)` in `lib/content/business.ts` — service areas, map coordinates, year
-  established, pump brands, Google Business Profile URL. Each is omitted from the page
-  and the JSON-LD while unknown; none are placeholdered.
-- `VERIFY` in the same file — phone, WhatsApp number, email, address spelling and the
-  24-hour opening claim. These feed the NAP, which must match the Google Business
-  Profile character for character.
+- `TODO(client)` in `lib/content/business.ts` — service areas, precise geo coordinates,
+  year established, pump brands. Each is omitted from the page and the JSON-LD while
+  unknown; none are placeholdered.
+- `VERIFY` in the same file — the business name (matched against a Maps screenshot, not
+  the live Business Profile), phone, WhatsApp number, email, address, postal code, the
+  Maps link, the 24-hour opening claim, and the social-proof figures (100+ customers,
+  95% satisfaction, 20 years, 500 projects — client-supplied, not yet backed by
+  paperwork). These feed the NAP, which must match the Google Business Profile
+  character for character.
 - `TODO(client)` in `lib/content/en/about.ts` — the About story needs client approval.
 - The Urdu copy needs a native speaker's review.
 - `TODO(launch)` in `app/[lang]/opengraph-image.tsx` — the Urdu share card is currently
   Latin-branded.
+- The Contact map block links a static screenshot (`lib/images/maps.png`) rather than an
+  official Maps embed — see CLAUDE.md §8 for the tradeoff.
+- `lib/images/4.jpg`–`7.jpg` are third-party diagrams, intentionally unused and
+  untracked by git (one is credited to another source). They stay out of the gallery
+  unless the client confirms rights to publish them.
 
 Deploy to Vercel with `NEXT_PUBLIC_SITE_URL` set. The locale proxy rules out
 `output: 'export'`.

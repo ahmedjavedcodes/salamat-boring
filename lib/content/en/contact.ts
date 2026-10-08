@@ -10,7 +10,10 @@ export const contact = {
   addressHeading: 'Shop address',
   hoursHeading: 'Hours',
   hoursAlwaysOpen: 'Open 24 hours, every day',
-  mapsLabel: 'Open in Google Maps',
+  mapHeading: 'Find us on the map',
+  mapAlt:
+    'Map showing the Mian Salamat Boring & Motor Pump location on Al-Madina Road, Township, Lahore',
+  mapsLabel: 'Get directions',
   form: {
     heading: 'Send us the details',
     helper: 'This opens WhatsApp with your message ready to send.',

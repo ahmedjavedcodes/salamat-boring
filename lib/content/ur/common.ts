@@ -4,8 +4,8 @@ import type { CommonCopy } from '../types';
 export const common = {
   skipToContent: 'مرکزی مواد پر جائیں',
   brand: {
-    nameShort: 'میاں سلامت',
-    homeLabel: `${business.name.ur} — اوپر جائیں`,
+    nameShort: 'میاں سلامت بورنگ اینڈ موٹر پمپ',
+    homeLabel: `${business.name.ur}، اوپر جائیں`,
   },
   nav: {
     label: 'صفحے کے حصے',

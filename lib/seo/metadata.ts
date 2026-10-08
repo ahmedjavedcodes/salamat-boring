@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { business } from '@/lib/content/business';
+import { metaKeywords } from '@/lib/content/keywords';
 import type { PageMeta } from '@/lib/content/types';
 import { type Locale, localeMeta, localePath, otherLocale } from '@/lib/i18n/config';
 import { localeUrl, siteUrl } from '@/lib/i18n/paths';
@@ -12,6 +13,11 @@ export function buildPageMetadata(lang: Locale, meta: PageMeta): Metadata {
     metadataBase: new URL(siteUrl),
     title: meta.title,
     description: meta.description,
+    // Obsolete for Google's own ranking, but still a standard, harmless tag some
+    // directories/audits check for. Built from the already-curated clusters in
+    // lib/content/keywords.ts, not invented here.
+    keywords: metaKeywords(lang),
+    applicationName: business.name[lang],
     alternates: {
       canonical: url,
       languages: {

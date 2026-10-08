@@ -64,12 +64,7 @@ export interface HeroCopy {
   callCta: string;
   /** Rendered only when business.serviceAreas is non-empty (CLAUDE.md §1.6). */
   areasLabel: string;
-  illustration: {
-    title: string;
-    description: string;
-    layers: { topsoil: string; clay: string; sand: string; water: string };
-    pipe: string;
-  };
+  illustration: IllustrationCopy;
 }
 
 export interface ProcessStep {
@@ -77,9 +72,36 @@ export interface ProcessStep {
   detail: string;
 }
 
+export interface IllustrationCopy {
+  title: string;
+  description: string;
+  layers: { topsoil: string; clay: string; sand: string; water: string };
+  pipe: string;
+}
+
+/**
+ * Social proof. Only `lead` and `heading` are copy; every number comes from
+ * business.trust and each line is dropped when its number is null, so an unconfirmed
+ * figure can never reach the page (CLAUDE.md §0, §5.3). The figures here are currently
+ * `VERIFY`, not `TODO(client)` — see business.ts.
+ */
+export interface TrustCopy {
+  heading: string;
+  lead: string;
+  /** `{count}` */
+  customersServed: string;
+  /** `{count}` */
+  satisfactionPercent: string;
+  /** `{count}` */
+  yearsActive: string;
+  /** `{count}` */
+  projectsCompleted: string;
+}
+
 export interface AboutCopy {
   heading: string;
   story: string[];
+  photoAlt: string;
   processHeading: string;
   process: ProcessStep[];
 }
@@ -87,6 +109,7 @@ export interface AboutCopy {
 export interface WorkCopy {
   heading: string;
   intro: string;
+  trust: TrustCopy;
   filterLabel: string;
   filters: { id: 'all' | ServiceId; label: string }[];
   showMore: string;
@@ -139,6 +162,9 @@ export interface ContactCopy {
   hoursHeading: string;
   /** Rendered only when business.hours.alwaysOpen is true. */
   hoursAlwaysOpen: string;
+  mapHeading: string;
+  mapAlt: string;
+  /** Doubles as the "Get directions" button label under the map image. */
   mapsLabel: string;
   form: ContactFormCopy;
 }

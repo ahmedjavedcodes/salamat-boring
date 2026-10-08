@@ -71,21 +71,24 @@ export function WorkGallery({ items, dict, previewCount }: WorkGalleryProps) {
 
   return (
     <>
-      <div role="group" aria-label={dict.filterLabel} className="mt-10 flex flex-wrap gap-2">
-        {dict.filters.map((option) => (
-          <Chip
-            key={option.id}
-            selected={filter === option.id}
-            onClick={() => {
-              setFilter(option.id);
-              setExpanded(false);
-              setOpenIndex(null); // indices refer to the filtered list
-            }}
-          >
-            {option.label}
-          </Chip>
-        ))}
-      </div>
+      {/* WorkSection sends no filters when only one category has photos (§7.4). */}
+      {dict.filters.length > 0 ? (
+        <div role="group" aria-label={dict.filterLabel} className="mt-10 flex flex-wrap gap-2">
+          {dict.filters.map((option) => (
+            <Chip
+              key={option.id}
+              selected={filter === option.id}
+              onClick={() => {
+                setFilter(option.id);
+                setExpanded(false);
+                setOpenIndex(null); // indices refer to the filtered list
+              }}
+            >
+              {option.label}
+            </Chip>
+          ))}
+        </div>
+      ) : null}
 
       <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((item, index) => {

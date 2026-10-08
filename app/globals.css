@@ -16,16 +16,20 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  /* Core palette */
-  --color-aquifer: #0f3a40;
-  --color-groundwater: #2e7a8c;
-  --color-galvanized: #8b979c;
+  /* Core palette — "water" theme (lightish blue). Contrast re-verified against the AA
+     rules in CLAUDE.md §3.2 when this was changed; see the decision log (§8).
+     brass, silt and sand keep their original hues on purpose: brass is the fittings
+     accent and silt/sand are the illustration's earth tones, both deliberately outside
+     the water family so the borehole SVG still reads as ground vs. water. */
+  --color-aquifer: #123c5c;
+  --color-groundwater: #2f82c0;
+  --color-galvanized: #8ca3b8;
   --color-brass: #a87a2e;
-  --color-limewash: #f2f4f1;
+  --color-limewash: #eef5fa;
   --color-ink: #17262b;
 
   /* Supporting */
-  --color-mist: #dde3e2;
+  --color-mist: #dce9f0;
   --color-silt: #7a6550;
   --color-sand: #c9b48f;
   --color-whatsapp: #25d366;
@@ -37,19 +41,20 @@
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --default-font-family: var(--font-body);
 
-  /* Type scale, English (major third) */
-  --text-sm: 0.875rem;
+  /* Type scale, English (major third, reduced twice now for a sleeker, tighter UI —
+     §8; the first pass was ~7%, this is a further, smaller trim) */
+  --text-sm: 0.75rem;
   --text-sm--line-height: 1.5;
-  --text-base: 1.0625rem;
-  --text-base--line-height: 1.65;
-  --text-lg: 1.3125rem;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.1875rem;
   --text-lg--line-height: 1.5;
-  --text-xl: 1.625rem;
+  --text-xl: 1.375rem;
   --text-xl--line-height: 1.3;
-  --text-2xl: 2.125rem;
+  --text-2xl: 1.75rem;
   --text-2xl--line-height: 1.15;
-  --text-display: clamp(2.5rem, 6vw, 4.25rem);
-  --text-display--line-height: 1.02;
+  --text-display: clamp(2.125rem, 5.25vw, 3.5rem);
+  --text-display--line-height: 1.05;
 
   /* Radius follows hierarchy, not one value everywhere (§3.5) */
   --radius-input: 2px;
@@ -61,10 +66,9 @@
   /* max-w-measure — body line length ceiling (§3.3) */
   --container-measure: 68ch;
 
-  /* The hero illustration's own ratio, and the mobile crop that keeps the CTAs
-     above the fold by showing only the lower strata (§3.4). */
+  /* The hero illustration's own ratio — matches its 480x560 viewBox almost exactly,
+     so the full illustration shows uncropped at every size (§8 decision log). */
   --aspect-strata: 6 / 7;
-  --aspect-strata-crop: 4 / 3;
   --aspect-work: 4 / 3;
 
   /* Archivo display axes (§3.3); Nastaliq has no width axis and ignores wdth. */
@@ -81,17 +85,17 @@
   --font-body: var(--font-nastaliq), ui-serif, serif;
   --font-display: var(--font-nastaliq), ui-serif, serif;
 
-  --text-sm: 1rem;
+  --text-sm: 0.875rem;
   --text-sm--line-height: 2;
-  --text-base: 1.1875rem;
+  --text-base: 1.0625rem;
   --text-base--line-height: 2.2;
-  --text-lg: 1.4375rem;
+  --text-lg: 1.3125rem;
   --text-lg--line-height: 2.1;
-  --text-xl: 1.8125rem;
+  --text-xl: 1.5625rem;
   --text-xl--line-height: 1.9;
-  --text-2xl: 2.375rem;
+  --text-2xl: 2.0625rem;
   --text-2xl--line-height: 1.75;
-  --text-display: clamp(2.625rem, 6.5vw, 4.5rem);
+  --text-display: clamp(2.25rem, 5.75vw, 3.75rem);
   --text-display--line-height: 1.6;
 
   --display-wdth: 100;
@@ -146,8 +150,7 @@
     outline-color: var(--color-limewash);
   }
 
-  /* The header changes background as you scroll, so it focuses in its own text
-     colour: ink over the hero, limewash once the aquifer bar is in. */
+  /* The header is always aquifer, so it focuses in its own limewash text colour. */
   .site-header :focus-visible {
     outline-color: currentColor;
   }
@@ -163,19 +166,12 @@
  * Unlayered on purpose — these must beat @layer utilities.
  */
 
-/* Header: transparent over the hero, aquifer once scrolled past it (§5.2).
-   `data-scrolled` is set by ActiveSectionNav, which already owns the only
-   IntersectionObserver on the page. */
+/* Header: a solid aquifer bar at every scroll position.
+   It was previously transparent over the hero and only turned solid once scrolled
+   past it (§5.2). That left a window during the first scroll where the display-size
+   hero headline passed underneath a transparent bar, and the wordmark and nav links
+   became unreadable against it. A persistent background is the fix; see §8. */
 .site-header {
-  background-color: transparent;
-  color: var(--color-ink);
-  transition:
-    background-color 200ms ease,
-    color 200ms ease,
-    border-color 200ms ease;
-}
-
-:root[data-scrolled='true'] .site-header {
   background-color: var(--color-aquifer);
   color: var(--color-limewash);
 }
@@ -228,10 +224,6 @@ body:has(dialog[open]) .floating-whatsapp {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header {
-    transition: none;
-  }
-
   .bore-pipe {
     stroke-dasharray: none;
     animation: none;

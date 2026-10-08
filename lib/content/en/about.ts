@@ -5,16 +5,18 @@ const street = business.address.street.en;
 const city = business.address.city.en;
 
 /**
- * TODO(client): the story below describes only what §1.1 of CLAUDE.md already states.
- * It claims no years in business, no project counts and no guarantees. Have the client
- * read and approve it, and have them add anything true that is missing.
+ * TODO(client): the story below describes only what §1.1 of CLAUDE.md already states,
+ * plus the confirmed years-active figure now in business.trust. Have the client read
+ * and approve it, and have them add anything true that is missing.
  */
 export const about = {
-  heading: 'About Mian Salamat',
+  heading: 'About Mian Salamat Boring & Motor Pump',
   story: [
-    `We are a boring and sanitary house on ${street} in ${city}. We drill water bores, sell and install pumps and motors, and fit bathrooms, kitchens and water lines.`,
+    `We are a boring and sanitary house on ${street} in ${city}, with ${business.trust.yearsActive} years behind us in water boring, pump and motor sales, and sanitary work.`,
+    'We drill water bores, sell and install water pumps and motors, and fit bathrooms, kitchens and water lines, including plumbing repairs for leaks and blockages.',
     'Most of our work comes from people who need water on a new plot, a bore that has stopped giving water, or a bathroom that has to be fitted before a house is handed over.',
   ],
+  photoAlt: 'A boring rig and diesel engine set up over a new bore on an open plot',
   processHeading: 'How a water boring job runs',
   process: [
     {

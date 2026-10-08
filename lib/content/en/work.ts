@@ -2,7 +2,15 @@ import type { WorkCopy } from '../types';
 
 export const work = {
   heading: 'Recent work',
-  intro: 'Bores, pumps, bathrooms and plumbing jobs we have finished.',
+  intro: 'Water boring, pump and motor sales, sanitary fitting and plumbing jobs we have finished.',
+  trust: {
+    heading: 'Our customers',
+    lead: 'We have worked for many customers across the city, on new plots and in finished homes.',
+    customersServed: '{count}+ customers',
+    satisfactionPercent: '{count}% customer satisfaction',
+    yearsActive: '{count} years of experience',
+    projectsCompleted: '{count} successful projects',
+  },
   filterLabel: 'Filter work by service',
   filters: [
     { id: 'all', label: 'All' },

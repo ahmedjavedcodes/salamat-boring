@@ -101,14 +101,23 @@ export const keywordClusters: readonly KeywordCluster[] = [
     id: 'brand',
     placement: 'Page title, footer, JSON-LD',
     primary: {
-      en: ['Mian Salamat boring', 'Mian Salamat sanitary'],
-      ur: ['میاں سلامت بورنگ', 'میاں سلامت سینیٹری'],
+      en: ['Mian Salamat Boring & Motor Pump', 'Mian Salamat sanitary'],
+      ur: ['میاں سلامت بورنگ اینڈ موٹر پمپ', 'میاں سلامت سینیٹری'],
     },
     secondary: {
-      en: [`boring and sanitary house ${city.en}`],
+      en: [`boring and sanitary house ${city.en}`, `water pump sales ${city.en}`],
       ur: [`بورنگ اینڈ سینیٹری ہاؤس ${city.ur}`],
     },
     // Service area names belong here too, once business.serviceAreas is confirmed.
     romanUrdu: [],
   },
 ];
+
+/**
+ * Flattened primary terms for the `<meta name="keywords">` tag only. This is metadata,
+ * not page content — it is never rendered as visible text, a list, or hidden markup,
+ * so it doesn't conflict with the "never stuffed into a page" rule above.
+ */
+export function metaKeywords(lang: 'en' | 'ur'): string[] {
+  return keywordClusters.flatMap((cluster) => cluster.primary[lang]);
+}

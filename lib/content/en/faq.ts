@@ -14,14 +14,14 @@ export const faq = {
     },
     {
       q: 'What does water boring cost?',
-      a: 'Boring is charged per foot, and the rate moves with the depth, the pipe size and the ground itself. That is why we do not print a rate here — it would be wrong for most plots. Send us your area and plot details on WhatsApp for a proper figure.',
+      a: 'Boring is charged per foot, and the rate moves with the depth, the pipe size and the ground itself. That is why we do not print a rate here, because it would be wrong for most plots. Send us your area and plot details on WhatsApp for a proper figure.',
     },
     {
       q: 'My bore has stopped giving water. Can it be repaired?',
       a: 'Often it can. Sometimes the water table has dropped and the bore has to go deeper, sometimes the filter is choked, and sometimes the fault is the pump rather than the bore. We check which it is before any work starts.',
     },
     {
-      q: 'Plumber chahiye — do you take small repair jobs?',
+      q: 'Plumber chahiye, do you take small repair jobs?',
       a: 'Yes. Pipe leakage, a blocked drain, a tap that will not shut off, or weak water pressure are normal jobs for us.',
     },
     {

@@ -1,10 +1,20 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { PhoneIcon, WhatsAppIcon } from '@/components/illustrations/icons';
 import { buttonClasses } from '@/components/ui/buttonStyles';
 import { WhatsAppLink } from '@/components/whatsapp/WhatsAppLink';
 import en from '@/lib/content/en';
+import { siteUrl } from '@/lib/i18n/paths';
 import { telUrl } from '@/lib/utils/whatsapp';
+
+// Without an explicit metadataBase here, Next warns on every build that it can't
+// resolve the OG/Twitter image URLs for this route and falls back to localhost.
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: en.common.notFoundPage.title,
+  robots: { index: false, follow: false },
+};
 
 /**
  * not-found.tsx cannot read route params, so it cannot know the locale. It uses the

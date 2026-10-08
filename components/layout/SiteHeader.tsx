@@ -8,21 +8,30 @@ import type { CommonCopy } from '@/lib/content/types';
 import { telUrl } from '@/lib/utils/whatsapp';
 
 /**
- * Sticky, 64 px, transparent over the hero and aquifer once past it (CLAUDE.md §5.2).
- * The background swap is CSS driven by `data-scrolled`, which ActiveSectionNav sets;
- * see globals.css. Everything inside inherits `currentColor` so it stays legible
- * through the change.
+ * Sticky, 64 px, a persistent aquifer bar at every scroll position (CLAUDE.md §5.2,
+ * §8 decision log — it was transparent-over-hero originally, which let the display-size
+ * hero heading pass underneath it unreadably). Everything inside inherits the header's
+ * limewash `currentColor`.
+ *
+ * Below `sm`, the full wordmark competes for space with the phone chip and the menu
+ * button and was being truncated mid-word; a compact "MS" monogram (the same mark as
+ * the favicon, CLAUDE.md §8) stands in for it there instead. The full wordmark returns
+ * at `sm` and up, where there is room for it.
  */
 export function SiteHeader({ dict }: { dict: CommonCopy }) {
   return (
     <header className="site-header sticky top-0 z-30">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-5 sm:px-8">
-        <a
-          href="#home"
-          aria-label={dict.brand.homeLabel}
-          className="display-type me-auto text-lg whitespace-nowrap"
-        >
-          {dict.brand.nameShort}
+        <a href="#home" aria-label={dict.brand.homeLabel} className="me-auto inline-flex">
+          {/* size-11 (44px), not a tighter fit around the glyphs, to keep this link's
+              tap target at the §3.9 touch-target floor. */}
+          <span
+            aria-hidden
+            className="bg-limewash text-aquifer display-type rounded-input inline-flex size-11 items-center justify-center text-base sm:hidden"
+          >
+            MS
+          </span>
+          <span className="display-type hidden text-lg sm:inline">{dict.brand.nameShort}</span>
         </a>
 
         <ActiveSectionNav items={dict.nav.items} label={dict.nav.label} />

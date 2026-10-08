@@ -4,8 +4,8 @@ import type { CommonCopy } from '../types';
 export const common = {
   skipToContent: 'Skip to main content',
   brand: {
-    nameShort: 'Mian Salamat',
-    homeLabel: `${business.name.en} — back to top`,
+    nameShort: 'Mian Salamat Boring & Motor Pump',
+    homeLabel: `${business.name.en}, back to top`,
   },
   nav: {
     label: 'Sections',

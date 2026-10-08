@@ -30,7 +30,8 @@ export function SiteFooter({
           <address className="text-base not-italic">
             {business.address.street[lang]}
             <br />
-            {business.address.city[lang]}, {business.address.region[lang]}
+            {business.address.city[lang]}, {business.address.region[lang]}{' '}
+            <bdi dir="ltr">{business.address.postalCode}</bdi>
           </address>
         </div>
 

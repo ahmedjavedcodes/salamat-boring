@@ -5,8 +5,12 @@ export function whatsappUrl(message?: string): string {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
+/**
+ * Local-dial digits, not E.164 (CLAUDE.md §8 decision log). `business.phoneE164` is
+ * kept for JSON-LD, where schema.org expects the international form.
+ */
 export function telUrl(): string {
-  return `tel:${business.phoneE164}`;
+  return `tel:${business.phoneTelHref}`;
 }
 
 export function mailtoUrl(): string {

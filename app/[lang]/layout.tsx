@@ -1,3 +1,4 @@
+import type { Viewport } from 'next';
 import { Archivo, Noto_Nastaliq_Urdu } from 'next/font/google';
 import { notFound } from 'next/navigation';
 
@@ -31,6 +32,13 @@ const nastaliq = Noto_Nastaliq_Urdu({
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
+
+// aquifer — kept in sync with app/globals.css's @theme block by hand (§8 decision log).
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#123C5C',
+};
 
 export const dynamicParams = false;
 

@@ -9,10 +9,9 @@ import { cn } from '@/lib/utils/cn';
 /**
  * Desktop section nav (CLAUDE.md §5.2).
  *
- * One IntersectionObserver does both jobs: it marks the current link, and it tells the
- * header whether the hero is still behind it (`data-scrolled` on <html>, styled in
- * globals.css). The rootMargin narrows observation to a band just under the header, so
- * "current" means "the section you are actually reading".
+ * One IntersectionObserver marks the current link. The rootMargin narrows observation
+ * to a band just under the header, so "current" means "the section you are actually
+ * reading".
  *
  * The links are plain anchors in the markup, so they scroll correctly with no JS.
  */
@@ -29,18 +28,11 @@ export function ActiveSectionNav({ items, label }: { items: NavItem[]; label: st
       .filter((el): el is HTMLElement => el !== null);
     if (sections.length === 0) return;
 
-    const root = document.documentElement;
-
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) visible.add(entry.target.id);
           else visible.delete(entry.target.id);
-
-          // The hero sitting in the band means the header is still over the hero.
-          if (entry.target.id === 'home') {
-            root.dataset.scrolled = entry.isIntersecting ? 'false' : 'true';
-          }
         }
 
         // Earliest section in document order wins, so the highlight never flickers
@@ -53,10 +45,7 @@ export function ActiveSectionNav({ items, label }: { items: NavItem[]; label: st
 
     for (const section of sections) observer.observe(section);
 
-    return () => {
-      observer.disconnect();
-      delete root.dataset.scrolled;
-    };
+    return () => observer.disconnect();
   }, []);
 
   // Keep the address bar in step without stacking history entries or jumping (§5.2).

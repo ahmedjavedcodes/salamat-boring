@@ -30,6 +30,7 @@ export function localBusinessJsonLd(lang: Locale, services: readonly ServiceItem
       streetAddress: business.address.street[lang],
       addressLocality: business.address.city[lang],
       addressRegion: business.address.region[lang],
+      postalCode: business.address.postalCode,
       addressCountry: business.address.country,
     },
     ...(business.geo

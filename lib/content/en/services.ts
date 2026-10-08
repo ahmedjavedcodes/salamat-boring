@@ -6,7 +6,8 @@ const intro = 'Assalam o alaikum. I found your website and I want to ask about';
 
 export const services = {
   heading: 'Services',
-  intro: 'What we do, and the jobs people usually call us for.',
+  intro:
+    'Water boring, water pump sales and installation, sanitary fitting and plumbing: what we do, and the jobs people usually call us for.',
   askLabel: 'Ask about this on WhatsApp',
   items: [
     {

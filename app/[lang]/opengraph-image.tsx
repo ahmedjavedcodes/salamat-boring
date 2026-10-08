@@ -1,6 +1,5 @@
 import { ImageResponse } from 'next/og';
 
-import { business } from '@/lib/content/business';
 import en from '@/lib/content/en';
 import { isLocale, locales } from '@/lib/i18n/config';
 import { loadGoogleFont } from '@/lib/seo/og-font';
@@ -27,13 +26,14 @@ export function generateStaticParams() {
  * browser at build time.
  */
 
-/** Palette tokens are not available inside ImageResponse, so they are repeated here. */
+/** Palette tokens are not available inside ImageResponse, so they are repeated here.
+ *  Keep in sync with app/globals.css's @theme block by hand (§8 decision log). */
 const palette = {
-  aquifer: '#0F3A40',
-  groundwater: '#2E7A8C',
-  galvanized: '#8B979C',
+  aquifer: '#123C5C',
+  groundwater: '#2F82C0',
+  galvanized: '#8CA3B8',
   brass: '#A87A2E',
-  limewash: '#F2F4F1',
+  limewash: '#EEF5FA',
   silt: '#7A6550',
   sand: '#C9B48F',
 };
@@ -57,7 +57,8 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
   const locale = isLocale(lang) ? lang : 'en';
   const rtl = locale === 'ur';
 
-  const headline = business.name.en;
+  // The wordmark, not the full legal name: it is what the site brands itself with.
+  const headline = en.common.brand.nameShort;
   const subtitle = en.meta.ogDescription;
 
   const fontData = await loadGoogleFont('Archivo', 700, `${headline}${subtitle}`);
