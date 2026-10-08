@@ -15,12 +15,14 @@ Standing instructions and project knowledge for AI-assisted work on this reposit
 ### Commands
 
 ```bash
-pnpm dev          # local dev server
-pnpm build        # production build (must pass before any PR)
-pnpm lint         # ESLint
-pnpm typecheck    # tsc --noEmit
-pnpm format       # Prettier (with prettier-plugin-tailwindcss)
+npm run dev        # local dev server
+npm run build      # production build (must pass before any PR)
+npm run lint       # ESLint
+npm run typecheck  # tsc --noEmit
+npm run format     # Prettier (with prettier-plugin-tailwindcss)
 ```
+
+`NEXT_PUBLIC_SITE_URL` must be set for a correct production build (see `.env.example`); it falls back to `http://localhost:3000` locally. `CLAUDE.md` is in `.prettierignore` — edit it by hand, because Prettier repads every Markdown table and buries real edits in whitespace.
 
 ---
 
@@ -129,7 +131,9 @@ Content files read `business.address.city` for the city name (e.g. `` `Water bor
 | Fonts | `next/font/google` — Archivo (EN), Noto Nastaliq Urdu (UR) |
 | Images | `next/image` with static imports (automatic blur placeholders) |
 | Hosting | Vercel (needed for the locale proxy; do not switch to `output: 'export'`) |
-| Package manager | pnpm |
+| Package manager | npm |
+
+As built: Next.js 16.4, React 19.3, Tailwind v4 compiled by the `@tailwindcss/turbopack` loader (there is no PostCSS config). On Next 16 the locale middleware file is named `proxy.ts` and exports `proxy`.
 
 ### 2.1 Directory structure
 
@@ -159,6 +163,21 @@ lib/
   utils/                  # cn.ts, whatsapp.ts (URL builder), format.ts
 public/
   work/                   # only if images cannot be statically imported
+```
+
+Added during implementation, beyond the structure above:
+
+```
+app/
+  global-not-found.tsx    # 404 shell for paths outside /[lang], which never reach the
+                          # locale layout and so have no <html> of their own
+components/
+  layout/Section.tsx      # shared section shell: container, rhythm, scroll-mt
+  sections/FaqSection.tsx # see §8 — §6.6 requires the FAQ on the page
+  seo/LocalBusinessJsonLd.tsx
+  ui/buttonStyles.ts      # variant map shared by Button, LinkButton and link CTAs
+lib/
+  seo/og-font.ts          # fetches a TTF for ImageResponse, which cannot use next/font
 ```
 
 ---
@@ -890,3 +909,18 @@ If approved, track only: `whatsapp_click` (with `source`: floating, hero, servic
 | WhatsApp button fixed bottom-right in both locales | Thumb reach and user expectation outweigh RTL mirroring here |
 | Contact form opens WhatsApp instead of posting to a server | Matches how the client already works; no backend or stored personal data in v1 |
 | Borehole cross-section as the single signature visual | Most characteristic image of the client's work; keeps everything else quiet and fast |
+
+Decisions taken during the first implementation pass:
+
+| Decision | Reason |
+|---|---|
+| npm, not pnpm (§0, §2 updated) | Client instruction; pnpm was not installed and npm was requested instead |
+| `proxy.ts` matcher is `['/', '/en']`, not `['/', '/en/:path*']` | Redirecting everything under `/en` also 308'd `/en/opengraph-image`, which is the real URL of the English OG image (the English page renders from the internal `/en` route), leaving crawlers a 404. §4.1 only asks for the `/en` **page** to redirect |
+| FAQ rendered as its own section between Work and Contact | §5.1's composition omits it but §6.6 requires the FAQ to stay on the page for users. Native `<details>`, so it needs no JS and stays crawlable |
+| Contact form has an optional phone field | §5.3 lists four fields, but §6.4 and §7.4 both specify Pakistani mobile validation, which implies one. It is optional (WhatsApp already carries the sender's number) and validated only when filled |
+| `services.askLabel` added to the Dictionary contract | §5.3 specifies a per-row "Ask about this on WhatsApp" action; the §6.2 sketch had no string for it |
+| OG image is Latin-branded in **both** locales | Satori, behind `ImageResponse`, cannot shape Arabic script: Noto Nastaliq Urdu and Noto Naskh Arabic both make it throw on GSUB lookup types 5 and 7. No font fixes this. `og:title`/`og:description` stay Urdu. See the TODO in `app/[lang]/opengraph-image.tsx` for the two ways to get real Urdu into the card |
+| `LanguageProvider` uses `useSyncExternalStore`, not `useEffect` + `useState` | The §4.4 sketch trips the `react-hooks/set-state-in-effect` rule. The store keeps the same contract: `hasChosen` is `null` on the server and during hydration, so the prompt is never server-rendered |
+| Header scroll state is CSS on `html[data-scrolled]`, set by `ActiveSectionNav` | §5.2 wants a transparent-over-hero header without adding a client component beyond the §5.1 list; the existing IntersectionObserver already knows whether the hero is behind the header |
+| `@theme` clears Tailwind's default palette and type scale (`--color-*: initial`) | §3.2 and §7.2 allow tokens only; clearing the defaults makes a stray `blue-500` or `text-3xl` produce no CSS instead of silently working |
+| Floating WhatsApp position lives in `globals.css` | Needs `env(safe-area-inset-bottom)` (not expressible as a token) and a deliberate physical `right` (§3.10). Keeping it there also keeps the physical-property lint rule honest everywhere else |

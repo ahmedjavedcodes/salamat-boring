@@ -1,0 +1,244 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens — CLAUDE.md §3.2, §3.3, §3.5.
+ *
+ * The `*: initial` lines clear Tailwind's default palette, type scale, fonts, radii and
+ * shadows so that only the tokens below exist. A stray `blue-500` or `text-3xl` then
+ * produces no CSS at all, which is the point: §3.2 and §7.2 allow tokens only.
+ */
+@theme {
+  --color-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Core palette */
+  --color-aquifer: #0f3a40;
+  --color-groundwater: #2e7a8c;
+  --color-galvanized: #8b979c;
+  --color-brass: #a87a2e;
+  --color-limewash: #f2f4f1;
+  --color-ink: #17262b;
+
+  /* Supporting */
+  --color-mist: #dde3e2;
+  --color-silt: #7a6550;
+  --color-sand: #c9b48f;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-ink: #073b2a;
+  --color-alert: #b3261e;
+
+  /* One family per locale; the Urdu block below swaps both to Nastaliq. */
+  --font-body: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --default-font-family: var(--font-body);
+
+  /* Type scale, English (major third) */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.3125rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.625rem;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 2.125rem;
+  --text-2xl--line-height: 1.15;
+  --text-display: clamp(2.5rem, 6vw, 4.25rem);
+  --text-display--line-height: 1.02;
+
+  /* Radius follows hierarchy, not one value everywhere (§3.5) */
+  --radius-input: 2px;
+  --radius-media: 6px;
+
+  /* Only things that float get a shadow (§3.5) */
+  --shadow-float: 0 2px 6px -1px rgb(15 58 64 / 0.18), 0 10px 28px -8px rgb(15 58 64 / 0.3);
+
+  /* max-w-measure — body line length ceiling (§3.3) */
+  --container-measure: 68ch;
+
+  /* The hero illustration's own ratio, and the mobile crop that keeps the CTAs
+     above the fold by showing only the lower strata (§3.4). */
+  --aspect-strata: 6 / 7;
+  --aspect-strata-crop: 4 / 3;
+  --aspect-work: 4 / 3;
+
+  /* Archivo display axes (§3.3); Nastaliq has no width axis and ignores wdth. */
+  --display-wdth: 118;
+  --display-wght: 700;
+}
+
+/*
+ * Urdu overrides. Tailwind v4 utilities reference the theme custom properties, so
+ * redefining them for the Urdu document re-scales every `text-*` utility at once:
+ * Nastaliq reads small and its descenders are deep (§3.3).
+ */
+:root[lang='ur'] {
+  --font-body: var(--font-nastaliq), ui-serif, serif;
+  --font-display: var(--font-nastaliq), ui-serif, serif;
+
+  --text-sm: 1rem;
+  --text-sm--line-height: 2;
+  --text-base: 1.1875rem;
+  --text-base--line-height: 2.2;
+  --text-lg: 1.4375rem;
+  --text-lg--line-height: 2.1;
+  --text-xl: 1.8125rem;
+  --text-xl--line-height: 1.9;
+  --text-2xl: 2.375rem;
+  --text-2xl--line-height: 1.75;
+  --text-display: clamp(2.625rem, 6.5vw, 4.5rem);
+  --text-display--line-height: 1.6;
+
+  --display-wdth: 100;
+  --display-wght: 600;
+}
+
+@utility display-type {
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' var(--display-wdth);
+  font-weight: var(--display-wght);
+}
+
+/* The thin strata rule used between sections (§3.1): bands in illustration colors. */
+/* Lightbox image: bounded by the viewport rather than by a spacing token. */
+@utility lightbox-image {
+  max-height: 70dvh;
+  width: 100%;
+  object-fit: contain;
+}
+
+@utility strata-rule {
+  height: 3px;
+  border: 0;
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-silt) 0 1px,
+    var(--color-sand) 1px 2px,
+    var(--color-groundwater) 2px 3px
+  );
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* In-page navigation is smooth only when motion is welcome (§3.6). */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Visible focus on every interactive element (§3.9), in one place. */
+  :focus-visible {
+    outline: 2px solid var(--color-groundwater);
+    outline-offset: 2px;
+  }
+
+  /* groundwater on aquifer fails contrast, so dark surfaces focus in limewash. */
+  .surface-dark :focus-visible {
+    outline-color: var(--color-limewash);
+  }
+
+  /* The header changes background as you scroll, so it focuses in its own text
+     colour: ink over the hero, limewash once the aquifer bar is in. */
+  .site-header :focus-visible {
+    outline-color: currentColor;
+  }
+
+  /* Urdu must never be letter-spaced, uppercased or italicised (§3.3). */
+  :root[lang='ur'] em,
+  :root[lang='ur'] i {
+    font-style: normal;
+  }
+}
+
+/*
+ * Unlayered on purpose — these must beat @layer utilities.
+ */
+
+/* Header: transparent over the hero, aquifer once scrolled past it (§5.2).
+   `data-scrolled` is set by ActiveSectionNav, which already owns the only
+   IntersectionObserver on the page. */
+.site-header {
+  background-color: transparent;
+  color: var(--color-ink);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+:root[data-scrolled='true'] .site-header {
+  background-color: var(--color-aquifer);
+  color: var(--color-limewash);
+}
+
+/*
+ * Floating WhatsApp button (§3.10). Position lives here rather than in utilities for
+ * two reasons: `right` is a deliberate physical property — bottom-right in both
+ * locales, because that is where thumbs and expectations are — and the offset needs
+ * env(safe-area-inset-bottom), which is not expressible as a token.
+ */
+.floating-whatsapp {
+  position: fixed;
+  z-index: 40;
+  right: 1.25rem;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+}
+
+/* The floating button must never sit over an open dialog (§3.10). */
+body:has(dialog[open]) .floating-whatsapp {
+  display: none;
+}
+
+/* The single orchestrated moment: the bore pipe draws downward, then water fades in
+   (§3.6). --bore-length is set per path from the component. */
+@keyframes bore-draw {
+  from {
+    stroke-dashoffset: var(--bore-length);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bore-water-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.bore-pipe {
+  stroke-dasharray: var(--bore-length);
+  animation: bore-draw 900ms ease-out both;
+}
+
+.bore-water {
+  animation: bore-water-in 400ms ease-out 760ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+
+  .bore-pipe {
+    stroke-dasharray: none;
+    animation: none;
+  }
+
+  .bore-water {
+    animation: none;
+    opacity: 1;
+  }
+}

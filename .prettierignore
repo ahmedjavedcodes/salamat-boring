@@ -1,0 +1,7 @@
+.next
+node_modules
+package-lock.json
+
+# Standing instructions. Prettier repads every Markdown table, which buries real
+# edits in whitespace noise. Edit it by hand.
+CLAUDE.md

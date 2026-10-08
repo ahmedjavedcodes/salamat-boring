@@ -1,0 +1,30 @@
+import type { WorkCopy } from '../types';
+
+export const work = {
+  heading: 'Recent work',
+  intro: 'Bores, pumps, bathrooms and plumbing jobs we have finished.',
+  filterLabel: 'Filter work by service',
+  filters: [
+    { id: 'all', label: 'All' },
+    { id: 'boring', label: 'Water boring' },
+    { id: 'pumps', label: 'Pumps and motors' },
+    { id: 'sanitary', label: 'Sanitary' },
+    { id: 'plumbing', label: 'Plumbing' },
+  ],
+  showMore: 'Show more work',
+  empty: {
+    title: 'Photos are being added',
+    body: 'We are putting our project photos together. Until then, message us on WhatsApp and ask about the kind of job you need.',
+    cta: 'Message us on WhatsApp',
+    whatsappMessage:
+      'Assalam o alaikum. I found your website and I want to ask about a job like the ones you do.',
+  },
+  lightbox: {
+    label: 'Work photo',
+    close: 'Close',
+    previous: 'Previous photo',
+    next: 'Next photo',
+    counter: '{current} of {total}',
+    open: 'Open photo',
+  },
+} satisfies WorkCopy;
