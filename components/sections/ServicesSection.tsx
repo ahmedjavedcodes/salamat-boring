@@ -1,14 +1,24 @@
 import { WhatsAppIcon } from '@/components/illustrations/icons';
 import { Section } from '@/components/layout/Section';
+import { MotorPumpsGallery } from '@/components/sections/MotorPumpsGallery';
 import { WhatsAppLink } from '@/components/whatsapp/WhatsAppLink';
 import type { Dictionary } from '@/lib/content/types';
+import type { Locale } from '@/lib/i18n/config';
 
 /**
  * A ruled list, not a card grid (CLAUDE.md §5.3, §3.7). Each row names the service,
  * says in one sentence what it is, lists the jobs people actually ask for, and offers a
  * WhatsApp action carrying that service's own prefilled message.
  */
-export function ServicesSection({ id, dict }: { id: string; dict: Dictionary['services'] }) {
+export function ServicesSection({
+  id,
+  dict,
+  lang,
+}: {
+  id: string;
+  dict: Dictionary['services'];
+  lang: Locale;
+}) {
   return (
     <Section id={id} labelledBy="services-title">
       <h2 id="services-title" className="display-type text-aquifer text-2xl">
@@ -49,6 +59,10 @@ export function ServicesSection({ id, dict }: { id: string; dict: Dictionary['se
           </li>
         ))}
       </ul>
+
+      <h3 className="display-type text-aquifer mt-16 text-xl">{dict.motorPumps.heading}</h3>
+      <p className="max-w-measure mt-4 text-base">{dict.motorPumps.intro}</p>
+      <MotorPumpsGallery lang={lang} />
     </Section>
   );
 }

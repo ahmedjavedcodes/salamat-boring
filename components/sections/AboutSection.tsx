@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { Section } from '@/components/layout/Section';
 import type { AboutCopy } from '@/lib/content/types';
-import aboutPhoto from '@/lib/images/2.jpg';
+import aboutPhoto from '@/lib/images/about.png';
 
 /**
  * About (CLAUDE.md §5.3).
@@ -33,15 +33,13 @@ export function AboutSection({ id, dict }: { id: string; dict: AboutCopy }) {
         </div>
 
         <div className="lg:col-span-5">
-          <div className="aspect-work rounded-media bg-limewash relative overflow-hidden">
-            <Image
-              src={aboutPhoto}
-              alt={dict.photoAlt}
-              placeholder="blur"
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          <Image
+            src={aboutPhoto}
+            alt={dict.photoAlt}
+            placeholder="blur"
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            className="rounded-media h-auto w-full"
+          />
         </div>
       </div>
 

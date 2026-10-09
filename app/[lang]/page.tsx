@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
       <main id="main">
         <HeroSection id="home" dict={dict.hero} dir={dir} lang={lang} />
-        <ServicesSection id="services" dict={dict.services} />
+        <ServicesSection id="services" dict={dict.services} lang={lang} />
         {/* The strata motif, used sparingly: a thin band in the illustration colours
             where the page turns from what we do to how we do it (§3.1). */}
         <hr aria-hidden className="strata-rule" />

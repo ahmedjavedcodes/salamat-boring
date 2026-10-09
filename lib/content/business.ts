@@ -46,7 +46,7 @@ export type Business = {
   serviceAreas: readonly LocalizedText[];
   /** TODO(client): omit the "years in business" claim entirely until this is known. */
   yearEstablished: number | null;
-  /** TODO(client): do not name a brand until the client confirms what is stocked. */
+  /** VERIFY: the client's own product photos (lib/content/motorPumps.ts) name "Golden". */
   pumpBrands: readonly string[];
   facebookUrl: string;
   /** The shop's public Google Maps listing — VERIFY against the Business Profile. */
@@ -87,7 +87,7 @@ export const business: Business = {
   geo: null, // TODO(client): a precise lat/long, not read off a screenshot
   serviceAreas: [], // TODO(client)
   yearEstablished: null, // TODO(client)
-  pumpBrands: [], // TODO(client)
+  pumpBrands: ['Golden'], // VERIFY — client-supplied product photos name this brand
   facebookUrl: 'https://www.facebook.com/p/Mian-Salamat-boring-and-sanitary-house-100064841959870/',
   googleBusinessUrl: 'https://maps.app.goo.gl/xRHDdZYV5pYEUycr7?g_st=aw',
 };

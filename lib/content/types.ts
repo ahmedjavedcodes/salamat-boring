@@ -184,6 +184,8 @@ export interface Dictionary {
     /** Per-row WhatsApp action, e.g. "Ask about this on WhatsApp" (§5.3). */
     askLabel: string;
     items: ServiceItem[];
+    /** Product-photo subsection nested under Services (§8 decision log). */
+    motorPumps: { heading: string; intro: string };
   };
   about: AboutCopy;
   work: WorkCopy;

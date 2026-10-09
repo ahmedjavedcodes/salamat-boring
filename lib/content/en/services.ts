@@ -9,6 +9,10 @@ export const services = {
   intro:
     'Water boring, water pump sales and installation, sanitary fitting and plumbing: what we do, and the jobs people usually call us for.',
   askLabel: 'Ask about this on WhatsApp',
+  motorPumps: {
+    heading: 'Motor pumps',
+    intro: 'Some of the pumps and motors we stock and fit.',
+  },
   items: [
     {
       id: 'boring',

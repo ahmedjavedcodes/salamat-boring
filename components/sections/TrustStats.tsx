@@ -38,7 +38,7 @@ export function TrustStats({ dict }: { dict: TrustCopy }) {
       <p className="max-w-measure text-aquifer mt-3 text-lg">{dict.lead}</p>
 
       {stats.length > 0 ? (
-        <dl className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((stat) => {
             const [value, ...rest] = fill(stat.template, { count: stat.value }).split(' ');
             const suffix = value?.replace(String(stat.value), '') ?? '';
